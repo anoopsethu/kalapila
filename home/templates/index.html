@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load staticfiles %}
+	<title>Kalapila</title>
+	<style type="text/css">
+		body{
+			background: #3498DB;
+			padding: 0px;
+			margin: 0px;
+		}
+		.container{
+			display: flex;
+			justify-content: center;
+  			flex-direction: column;
+ 			align-items: center;
+ 			height: 100vh;
+ 			padding: 0px;
+		}
+		.container img{
+			max-height: 90px;
+			max-width: 90px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<img src="{% static 'img/kalapila-logo.png' %}">
+	</div>
+</body>
+</html>
