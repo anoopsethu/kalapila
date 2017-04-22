@@ -1,0 +1,1 @@
+web: gunicorn kalapila.wsgi:application --log-file -
