@@ -26,7 +26,9 @@ SECRET_KEY = '24c4#@&=w-x3ryg=b_!+#jmk=!qihv1z#j#@%s3k4(yzz@5j_e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'kalapila.herokuapp.com',
+]
 
 
 # Application definition
