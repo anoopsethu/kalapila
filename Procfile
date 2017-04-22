@@ -1,1 +1,1 @@
-web: bin/start-nginx gunicorn -c config/gunicorn.py kalapila.wsgi --worker-class gevent --log-file - 
+web: gunicorn kalapila.wsgi --log-file -
