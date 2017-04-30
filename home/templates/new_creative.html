@@ -116,10 +116,18 @@
 	<div class="main-canvas-container" id="main-canvas-container">
 		<canvas id="main-canvas" height="600" width="800"></canvas>
 		<div class="canvas-controls">
-			<a class="btn canvas-control-btn object-control-btn remove-item-btn" onclick="removeActiveCanvasItem()">
+			<a class="btn canvas-control-btn object-control-btn remove-item-btn" id="undo" onclick="undo()" data-toggle="tooltip" title="പഴയപടിയാക്കുക" data-placement="top">
+				<span class="glyphicon glyphicon-repeat glyphicon-flipped"></span>
+			</a>
+			<a class="btn canvas-control-btn object-control-btn remove-item-btn" id="redo" onclick="redo()" data-toggle="tooltip" title="മുൻപടിയാക്കുക" data-placement="top">
+				<span class="glyphicon glyphicon-repeat"></span>
+			</a>
+			<a class="btn canvas-control-btn object-control-btn remove-item-btn" onclick="removeActiveCanvasItem()" data-toggle="tooltip" title="നീക്കം ചെയ്യുക" data-placement="top">
 				<span class="glyphicon glyphicon-trash"></span>
 			</a>
 		</div>
+
+
 	</div>
 {% endblock %}
 
@@ -162,9 +170,9 @@
 
 	var canvas;
 
-	$(document).ready(function() {
+
 	  	// create a wrapper around native canvas element (with id="c")
-		window.canvas = new fabric.Canvas('main-canvas', {
+		canvas = new fabric.Canvas('main-canvas', {
 			backgroundColor : "#fff",
 		});
 		fabric.Object.prototype.set({
@@ -175,10 +183,6 @@
 		});
 
 		$('[data-toggle="tooltip"]').tooltip(); 
-
-		var canvasWrapper = document.getElementById("main-canvas-container");
-		canvasWrapper.tabIndex = 1000;
-		canvasWrapper.addEventListener("keydown", canvasKeyControls, false);
 
 		$('[name="text-color-picker"]').paletteColorPicker({
 			colors: ['#D50000','#304FFE','#00B8D4','#69F0AE','#FFFF00','#F8BBD0'],
@@ -191,7 +195,7 @@
 			width: 80,
 		});
 
-	});
+
 
 	function downloadImage(link, canvasId, filename){
 		link.href = document.getElementById('main-canvas').toDataURL();
@@ -268,6 +272,7 @@
 		    }, 1);
 		});
 		canvas.add(itext);
+
 	}
 
 	$(".bg-item").click(function(){
@@ -291,6 +296,7 @@
     	fabric.Image.fromURL(temp_url, function(image){
 	      canvas.add(image.set({ left: 50, top: 50}).scale(0.3));
 	      canvas.setActiveObject(image);
+
 	    }, { crossOrigin: 'Anonymous' });
     });
 
@@ -298,24 +304,97 @@
 	    downloadImage(this, 'main-canvas', 'Kalapila Creative.png');
 	}, false);
 
-	function canvasKeyControls(e){
-		/*e.preventDefault();*/
-	    var keyCode = e.keyCode;
-	    console.log(keyCode);
-	    if(keyCode == 46 || keyCode == 8){
-	        removeActiveCanvasItem();
-	    }
-	};
 
-    window.removeActiveCanvasItem = function() {
+    function removeActiveCanvasItem(){
+    	console.log("here");
         if(canvas.getActiveGroup()){
-		      canvas.getActiveGroup().forEachObject(function(o){ canvas.remove(o) });
-		      canvas.discardActiveGroup().renderAll();
-		    } else {
-		      canvas.remove(canvas.getActiveObject());
-		    }
-	};
+	      canvas.getActiveGroup().forEachObject(function(o){ canvas.remove(o) });
+	      canvas.discardActiveGroup().renderAll();
+	    } else {
+	      canvas.remove(canvas.getActiveObject());
+	    }
+	}
 
+
+
+
+
+
+
+var current;
+var list = [];
+var state = [];
+var index = 0;
+var index2 = 0;
+var action = false;
+var refresh = true;
+state[0] = JSON.stringify(canvas.toDatalessJSON());
+console.log(JSON.stringify(canvas.toDatalessJSON()));
+$("#clear").click(function(){
+    canvas.clear();
+    index=0;
+});
+
+canvas.on("object:added", function (e) {
+    
+    if(action===true){
+
+        var object = e.target;
+    console.log(JSON.stringify(canvas.toDatalessJSON()));
+    state[index] = JSON.stringify(canvas.toDatalessJSON());
+    refresh = true;
+        action=false;
+        canvas.renderAll();
+    }
+});
+function undo() {
+    index--;
+
+    if (index < 0) {
+        index = 0;
+        canvas.loadFromJSON(state[index]);
+        canvas.renderAll();
+        return;
+    }
+
+
+    console.log('undo');
+
+    canvas.loadFromJSON(state[index]);
+    
+    console.log(JSON.stringify(canvas.toDatalessJSON()));
+    canvas.renderAll();
+    action = false;
+}
+
+function redo() {
+    index++;
+
+    action = false;
+    if (index >= state.length - 1) {
+        canvas.loadFromJSON(state[index]);
+        canvas.renderAll();
+        return;
+    }
+
+    console.log('redo');
+
+    canvas.loadFromJSON(state[index]);
+    
+    console.log(JSON.stringify(canvas.toDatalessJSON()));
+    canvas.renderAll();
+    
+    canvas.renderAll();
+    
+}
+
+canvas.on("object:modified", function (e) {
+    var object = e.target;
+    console.log('object:modified');
+    console.log(JSON.stringify(canvas.toDatalessJSON()));
+    state[++index] = JSON.stringify(canvas.toDatalessJSON());
+    action=false;
+});
 
 </script>
 {% endblock %}

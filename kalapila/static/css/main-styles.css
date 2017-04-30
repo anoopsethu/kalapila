@@ -32,6 +32,12 @@ a:hover{
 .align-right{
 	text-align: right;
 }
+.glyphicon-flipped {
+    transform: scaleX(-1);
+    -moz-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -ms-transform: scaleX(-1);
+}
 .fixed-sidebar{
 	position: fixed;
 	left: 0px;
@@ -177,6 +183,7 @@ textarea.form-control:focus, textarea.form-control:hover{
 	background: rgba(0,0,0,0.2);
 	color: #222;
 	text-align: center;
+	margin: 0px 10px;
 }
 .object-control-btn{
 	

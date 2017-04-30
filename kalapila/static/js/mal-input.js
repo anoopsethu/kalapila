@@ -498,7 +498,6 @@ function getSelectedText() {
 
  function enable(){
         widget.onkeypress=keypressEnabled;
-        widget.style.outline = 'dashed 1px green';
     };
 
 
