@@ -1,14 +1,36 @@
 <!DOCTYPE html>
+	{% load staticfiles %}
+
 <html>
 <head>
-	{% load staticfiles %}
 	<link rel="icon" type="image/png" href="{% static 'img/kalapila-favicon.png' %}">
 	<title>Kalapila</title>
-	<link rel="stylesheet" type="text/css" href="{% static 'css/main-styles.css' %}">
+	<style type="text/css">
+		body, html{
+			margin: 0px;
+			padding: 0px;
+		}
+		.container{
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#00abff+0,9563f2+100 */
+			background: #00abff; /* Old browsers */
+			background: -moz-linear-gradient(-45deg, #00abff 0%, #9563f2 100%); /* FF3.6-15 */
+			background: -webkit-linear-gradient(-45deg, #00abff 0%,#9563f2 100%); /* Chrome10-25,Safari5.1-6 */
+			background: linear-gradient(135deg, #00abff 0%,#9563f2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00abff', endColorstr='#9563f2',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+		}
+		.container img{
+			max-width: 80px;
+		}
+	</style>
 </head>
 <body>
 	<div class="container">
-
+		<img src="{% static 'img/kalapila-logo.png' %}">
 	</div>
 </body>
 </html>
