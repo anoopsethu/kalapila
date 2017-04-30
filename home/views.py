@@ -11,3 +11,6 @@ from django.templatetags.static import static
 
 def index(request):
     return render(request, 'index.html', {})
+
+def new_creative(request):
+    return render(request, 'new_creative.html', {})

@@ -1,0 +1,321 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block head %}
+	{{ block.super }}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/palette-color-picker.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/animate.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-toggle.min.css' %}">
+{% endblock %}
+
+{% block body %}
+	{{ block.super }}
+	<div class="fixed-sidebar">
+		<div class="nav-header">
+			<h2>കലപില</h2>
+		</div>
+		<ul class="nav nav-tabs create-new-nav">
+		  <li class="active" role="presentation" data-toggle="tooltip" data-placement="top" data-trigger="hover" title="ചിത്രങ്ങൾ ഉൾപ്പെടുത്താം"><a href="#search" aria-controls="search" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-search"></span></a></li>
+		  <li role="presentation" data-toggle="tooltip" data-placement="top" data-trigger="hover" title="ബാക്ക്ഗ്രൗണ്ട് മാറ്റാം"><a href="#bg" aria-controls="bg" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-picture"></span></a></li>
+		  <li role="presentation" data-toggle="tooltip" data-placement="top" data-trigger="hover" title="ടെക്സ്റ്റ് ഉൾപ്പെടുത്താം"><a href="#text" aria-controls="text" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-font"></span></a></li>
+		  <li role="presentation" data-toggle="tooltip" data-placement="top" data-trigger="hover" title="ഡൌൺലോഡ് ചെയ്യാം"><a href="#save" aria-controls="save" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-download-alt"></span></a></li>
+		</ul>
+		<div class="tab-content">
+		  <div role="tabpanel" class="tab-pane fade in active" id="search">
+		  	<div class="search-box-container" style="position: relative;">
+		  		<input type="text" class="form-control search-main" id="search-main" name="" placeholder="തിരഞ്ഞു തുടങ്ങിക്കോ…">
+		  		<a class="btn main-cta btn-search" id="btn-search" onclick="searchForClipart()"><span class="glyphicon glyphicon-arrow-right"></span></a>
+		  	</div>
+		  	<p id="loading-message" class="hide">Loading, please wait...</p>
+			<div class="row no-margin">
+				<div id="search-result-items" class="search-result-items"></div>
+			</div>
+		  </div>
+		  <div role="tabpanel" class="tab-pane fade" id="bg">
+		  	<p class="tab-header">ബാക്ക്ഗ്രൗണ്ട് കളർ മാറ്റണോ? ദാ, ഇഷ്ടം പോലെ സ്റ്റോക്ക് ഉണ്ട്.</p>
+		  	<div class="row" style="margin: 25px -15px 0px -15px;">
+		  		<div class="col-md-12">
+		  			<a class="bg-item" style="background: #FFFFFF"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #000000"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #FEC606"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #63393E"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #D33257"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #1DABB8"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #92F22A"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #A19C69"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #25373D"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #34E5E2"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #9A5C47"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #DEDEDE"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #FA6E6E"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #097B73"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #2955E6"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #7BB0A6"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #A19C69"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #FD5B03"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #EB6361"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #E7E7E7"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #E6DCDB"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #3C3741"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #7CEECE"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #E3000E"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #EB9532"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #8870FF"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #7E3661"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #DBCB8E"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #42729B"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #F6F7F2"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #71BA51"><span class="glyphicon glyphicon-ok"></span></a>
+		  			<a class="bg-item" style="background: #FACA9B"><span class="glyphicon glyphicon-ok"></span></a>
+
+
+		  		</div>
+		  	</div>
+		  </div>
+		  <div role="tabpanel" class="tab-pane fade" id="text">
+		  	<div class="row">
+			  	<div class="col-md-12 align-right" style="margin-bottom: 20px;">
+			  		<span class="color-change-desc" style="top: 0px; margin-right: 10px;">മലയാളത്തിൽ ടൈപ്പണോ?</span>
+		  			<input checked type="checkbox" id="language-toggle" data-onstyle="success">
+			  	</div>
+		  		<div class="col-md-12">
+		  			<textarea class="form-control" rows="5" placeholder="അപ്പൊ എങ്ങനാ, ടൈപ്പ് ചെയ്തു തുടങ്ങാം, ല്ലേ? ;)" id="text-content"></textarea>
+		  		</div>
+		  		<div class="col-md-6">
+		  			<input type="text" class="text-color-picker" name="text-color-picker" value="#00B8D4">
+		  			<span class="color-change-desc">ടെക്സ്റ്റ് കളർ മാറ്റാം</span>
+		  		</div>
+	  			<div class="col-md-6" style="margin-top: 15px;">
+	  				<a class="btn main-cta block-cta" id="add-text-btn" onclick="addTextToCanvas()">ആഡ് ചെയ്യാം</a>
+	  			</div>
+	  		</div>
+		  	
+		  </div>
+		  <div role="tabpanel" class="tab-pane fade" id="save">
+		  	<div class="center download-tab-content">
+		  		<img src="{% static 'img/download-cloud-icon.png' %}" class="tab-main-icon">
+		  		<p class="tab-main-desc">
+		  			കഴിഞ്ഞോ, അലങ്കോലപ്പണികൾ? നിങ്ങളുടെ സൃഷ്ടി ദാ, ദിവടെ ഡൌൺലോഡ് ചെയ്യാം. വേണമെങ്കിൽ സോഷ്യൽ മീഡിയകളിൽ ഷെയർ ചെയ്യുകയുമാവാം.
+		  		</p>
+		  		<div class="row" style="margin:30px 0px;">
+		  			<div class="col-md-8 col-md-offset-2">
+		  				<a class="btn main-cta block-cta" id="download-btn" onclick="downloadImage()">ഡൌൺലോഡ് ചെയ്യാം!</a>
+		  			</div>
+		  		</div>
+		  		<div class="row" style="margin: 0px 0px 0px 0px;">
+		  			<div class="col-md-12 center">
+		  				<a class="sm-share-icon"><img src="{% static 'img/fb-icon.png' %}"></a>
+		  				<a class="sm-share-icon"><img src="{% static 'img/twitter-icon.png' %}"></a>
+		  				<a class="sm-share-icon"><img src="{% static 'img/instagram-icon.png' %}"></a>
+		  			</div>
+		  		</div>
+		  	</div>
+		  	
+		  </div>
+		</div>
+	</div>
+	<div class="main-canvas-container" id="main-canvas-container">
+		<canvas id="main-canvas" height="600" width="800"></canvas>
+		<div class="canvas-controls">
+			<a class="btn canvas-control-btn object-control-btn remove-item-btn" onclick="removeActiveCanvasItem()">
+				<span class="glyphicon glyphicon-trash"></span>
+			</a>
+		</div>
+	</div>
+{% endblock %}
+
+{% block script %}
+	{{ block.super }}
+<script type="text/javascript" src="{% static 'js/fabric.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap-toggle.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/mal-input.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/palette-color-picker.min.js' %}"></script>
+<script type="text/javascript">
+	window.searchForClipart = function(){
+		$.ajax({
+		   url: 'https://openclipart.org/search/json/?query=' + $("#search-main").val() + '&amount=20&sort=downloads',
+		   data: {
+		      format: 'json'
+		   },
+		   beforeSend: function(){
+		   	  $("#search-result-items").empty();
+		   	  $("#loading-message").removeClass("hide");
+		   },
+		   error: function() {
+		      $('#info').html('An error has occurred');
+		   },
+		   dataType: 'jsonp',
+		   success: function(data) {
+		   	  if (data.payload.length==0) {
+		   	  	$("#loading-message").removeClass("hide");
+		   	  	$("#loading-message").html("No results found!");
+		   	  } else {
+		   	  	for (var i = data.payload.length - 1; i >= 0; i--) {
+			      	$("#search-result-items").append("<div class='col-md-4'><div class='clipart-search-result-container animated fadeInUp'><img src=" + data.payload[i].svg.png_full_lossy + " class='clipart-search-result hide' width='100' height='100'></img></div></div>");
+			    }
+			   	$("#loading-message").addClass("hide");
+			   	$(".clipart-search-result").removeClass("hide");
+		   	  }
+		   },
+		   type: 'GET'
+		});
+	}
+
+	var canvas;
+
+	$(document).ready(function() {
+	  	// create a wrapper around native canvas element (with id="c")
+		window.canvas = new fabric.Canvas('main-canvas', {
+			backgroundColor : "#fff",
+		});
+		fabric.Object.prototype.set({
+		    transparentCorners: false,
+		    borderColor: '#08a7fe',
+		    cornerColor: '#08a7fe',
+		    cornerSize: 6,
+		});
+
+		$('[data-toggle="tooltip"]').tooltip(); 
+
+		var canvasWrapper = document.getElementById("main-canvas-container");
+		canvasWrapper.tabIndex = 1000;
+		canvasWrapper.addEventListener("keydown", canvasKeyControls, false);
+
+		$('[name="text-color-picker"]').paletteColorPicker({
+			colors: ['#D50000','#304FFE','#00B8D4','#69F0AE','#FFFF00','#F8BBD0'],
+			clear_btn: null
+		});
+
+		$('#language-toggle').bootstrapToggle({
+			on: 'വേണം',
+			off: 'വേണ്ട',
+			width: 80,
+		});
+
+	});
+
+	function downloadImage(link, canvasId, filename){
+		link.href = document.getElementById('main-canvas').toDataURL();
+    	link.download = filename;
+	}
+
+	function addTextToCanvas(){ 
+		var SINGLE_LINE = false;
+		// custom input area
+		if (SINGLE_LINE) {
+		    var $itext = $('<input/>').attr('type', 'text').addClass('itext');
+		}
+		else {
+		    var $itext = $('<textarea/>').addClass('itext');
+		}
+		var itext = new fabric.IText($('#text-content').val(), {
+		    left: 100,
+		    top: 100,
+		    fontSize: 20,
+		    fill: $('.text-color-picker').val(),
+		})
+		.on('editing:entered', function(e) {
+			console.log("editing now")
+		    var obj = this;
+		    if (SINGLE_LINE) {
+		        var keyDownCode = 0;
+		    }
+		    canvas.remove(obj);
+		    // show input area
+		    $itext.css({
+		        left: obj.left,
+		        top: obj.top,
+		        'line-height': obj.lineHeight,
+		        'font-family': obj.fontFamily,
+		        'font-size': Math.floor(obj.fontSize * Math.min(obj.scaleX, obj.scaleY)) + 'px',
+		        'font-weight': obj.fontWeight,
+		        'font-style': obj.fontStyle,
+		        color: obj.fill,
+		    })
+		    .val(obj.text)
+		    .appendTo('.canvas-container');
+		    bindAllTextElements();
+		    // text submit event
+		    if (SINGLE_LINE) {
+		        // submit text by ENTER key
+		        $itext.on('keydown', function(e) {
+		            // save the key code of a pressed key while kanji conversion (it differs from the code for keyup)
+		            keyDownCode = e.which;
+		        })
+		        .on('keyup', function(e) {
+		            if (e.keyCode == 13 && e.which == keyDownCode) {
+		                obj.exitEditing();
+		                obj.set('text', $(this).val());
+		                $(this).remove();
+		                canvas.add(obj);
+		                canvas.renderAll();
+		            }
+		        });
+		    }
+		    else {
+		        // submit text by focusout
+		        $itext.on('focusout', function(e) {
+		            obj.exitEditing();
+		            obj.set('text', $(this).val());
+		            $(this).remove();
+		            canvas.add(obj);
+		            canvas.renderAll();
+		        });
+		    }
+		    
+		    // focus on text
+		    setTimeout(function() {
+		        $itext.select();
+		    }, 1);
+		});
+		canvas.add(itext);
+	}
+
+	$(".bg-item").click(function(){
+		console.log($(this).css('background-color'));
+		$(".bg-item .glyphicon").css("opacity", 0);
+		$(this).find(".glyphicon").css("opacity", 1);
+		canvas.backgroundColor=$(this).css('background-color');
+		canvas.renderAll();
+	});
+
+		
+	$('#search-main').keypress(function(e){
+        if(e.which == 13){//Enter key pressed
+            searchForClipart();
+        }
+    });
+
+    $("#search-result-items").on('click', '.clipart-search-result-container', function() {
+    	var temp_url = $(this).find('.clipart-search-result').attr('src').toString();
+    	console.log(temp_url);
+    	fabric.Image.fromURL(temp_url, function(image){
+	      canvas.add(image.set({ left: 50, top: 50}).scale(0.3));
+	      canvas.setActiveObject(image);
+	    }, { crossOrigin: 'Anonymous' });
+    });
+
+    document.getElementById('download-btn').addEventListener('click', function() {
+	    downloadImage(this, 'main-canvas', 'Kalapila Creative.png');
+	}, false);
+
+	function canvasKeyControls(e){
+		/*e.preventDefault();*/
+	    var keyCode = e.keyCode;
+	    console.log(keyCode);
+	    if(keyCode == 46 || keyCode == 8){
+	        removeActiveCanvasItem();
+	    }
+	};
+
+    window.removeActiveCanvasItem = function() {
+        if(canvas.getActiveGroup()){
+		      canvas.getActiveGroup().forEachObject(function(o){ canvas.remove(o) });
+		      canvas.discardActiveGroup().renderAll();
+		    } else {
+		      canvas.remove(canvas.getActiveObject());
+		    }
+	};
+
+
+</script>
+{% endblock %}
