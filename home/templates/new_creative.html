@@ -26,6 +26,21 @@
 		  		<a class="btn main-cta btn-search" id="btn-search" onclick="searchForClipart()"><span class="glyphicon glyphicon-arrow-right"></span></a>
 		  	</div>
 		  	<p id="loading-message" class="hide">Loading, please wait...</p>
+		  	<div class="search-info-container">
+		  		<p class="tab-main-desc center" style="margin: 35px 0px 30px 0px;">
+		  			ഓപ്പൺ ക്ലിപ്പ് ആർട്ട് എന്ന കമ്മ്യൂണിറ്റി ഇമേജ് സെർച്ച് ആണ് കലപില ഉപയോഗിക്കുന്നത്. പുതിയ ഇമേജ് അപ്‌ലോഡ് ചെയ്യണോ?
+		  		</p>
+		  		<div class="row" style="margin:30px 0px;">
+		  			<div class="col-md-8 col-md-offset-2 center">
+		  				<div class="upload-image-container" data-toggle="tooltip" data-placement="top" title="പുതിയത് അപ്‌ലോഡ് ചെയ്യാം">
+		  					<a class="btn circular-btn" id="upload-dummy-btn">
+		  						<span class="glyphicon glyphicon-plus"></span>
+		  					</a>
+		  					<input type="file" id="upload-image-btn" name="" onchange="uploadImage(event)">
+		  				</div>
+		  			</div>
+		  		</div>
+		  	</div>
 			<div class="row no-margin">
 				<div id="search-result-items" class="search-result-items"></div>
 			</div>
@@ -147,6 +162,7 @@
 		   beforeSend: function(){
 		   	  $("#search-result-items").empty();
 		   	  $("#loading-message").removeClass("hide");
+		   	  $(".search-info-container").fadeOut("fast");
 		   },
 		   error: function() {
 		      $('#info').html('An error has occurred');
@@ -316,85 +332,96 @@
 	}
 
 
+	function uploadImage(e) {
+	  var file = e.target.files[0];
+	  var reader = new FileReader();
+	  reader.onload = function (f) {
+	    var data = f.target.result;                    
+	    fabric.Image.fromURL(data, function (img) {
+	      var oImg = img.set({left: 100, top: 100, angle: 00}).scale(0.9);
+	      canvas.add(oImg).renderAll();
+	      var a = canvas.setActiveObject(oImg);
+	      var dataURL = canvas.toDataURL({format: 'png', quality: 0.8});
+	    });
+	  };
+	  reader.readAsDataURL(file);
+	}
 
 
+	var current;
+	var list = [];
+	var state = [];
+	var index = 0;
+	var index2 = 0;
+	var action = false;
+	var refresh = true;
+	state[0] = JSON.stringify(canvas.toDatalessJSON());
+	console.log(JSON.stringify(canvas.toDatalessJSON()));
+	$("#clear").click(function(){
+	    canvas.clear();
+	    index=0;
+	});
+
+	canvas.on("object:added", function (e) {
+	    
+	    if(action===true){
+
+	        var object = e.target;
+	    console.log(JSON.stringify(canvas.toDatalessJSON()));
+	    state[index] = JSON.stringify(canvas.toDatalessJSON());
+	    refresh = true;
+	        action=false;
+	        canvas.renderAll();
+	    }
+	});
+	function undo() {
+	    index--;
+
+	    if (index < 0) {
+	        index = 0;
+	        canvas.loadFromJSON(state[index]);
+	        canvas.renderAll();
+	        return;
+	    }
 
 
+	    console.log('undo');
 
-var current;
-var list = [];
-var state = [];
-var index = 0;
-var index2 = 0;
-var action = false;
-var refresh = true;
-state[0] = JSON.stringify(canvas.toDatalessJSON());
-console.log(JSON.stringify(canvas.toDatalessJSON()));
-$("#clear").click(function(){
-    canvas.clear();
-    index=0;
-});
+	    canvas.loadFromJSON(state[index]);
+	    
+	    console.log(JSON.stringify(canvas.toDatalessJSON()));
+	    canvas.renderAll();
+	    action = false;
+	}
 
-canvas.on("object:added", function (e) {
-    
-    if(action===true){
+	function redo() {
+	    index++;
 
-        var object = e.target;
-    console.log(JSON.stringify(canvas.toDatalessJSON()));
-    state[index] = JSON.stringify(canvas.toDatalessJSON());
-    refresh = true;
-        action=false;
-        canvas.renderAll();
-    }
-});
-function undo() {
-    index--;
+	    action = false;
+	    if (index >= state.length - 1) {
+	        canvas.loadFromJSON(state[index]);
+	        canvas.renderAll();
+	        return;
+	    }
 
-    if (index < 0) {
-        index = 0;
-        canvas.loadFromJSON(state[index]);
-        canvas.renderAll();
-        return;
-    }
+	    console.log('redo');
 
+	    canvas.loadFromJSON(state[index]);
+	    
+	    console.log(JSON.stringify(canvas.toDatalessJSON()));
+	    canvas.renderAll();
+	    
+	    canvas.renderAll();
+	    
+	}
 
-    console.log('undo');
-
-    canvas.loadFromJSON(state[index]);
-    
-    console.log(JSON.stringify(canvas.toDatalessJSON()));
-    canvas.renderAll();
-    action = false;
-}
-
-function redo() {
-    index++;
-
-    action = false;
-    if (index >= state.length - 1) {
-        canvas.loadFromJSON(state[index]);
-        canvas.renderAll();
-        return;
-    }
-
-    console.log('redo');
-
-    canvas.loadFromJSON(state[index]);
-    
-    console.log(JSON.stringify(canvas.toDatalessJSON()));
-    canvas.renderAll();
-    
-    canvas.renderAll();
-    
-}
-
-canvas.on("object:modified", function (e) {
-    var object = e.target;
-    console.log('object:modified');
-    console.log(JSON.stringify(canvas.toDatalessJSON()));
-    state[++index] = JSON.stringify(canvas.toDatalessJSON());
-    action=false;
-});
+	canvas.on("object:modified", function (e) {
+	    var object = e.target;
+	    console.log('object:modified');
+	    console.log(JSON.stringify(canvas.toDatalessJSON()));
+	    state[++index] = JSON.stringify(canvas.toDatalessJSON());
+	    action=false;
+	});
 
 </script>
 {% endblock %}

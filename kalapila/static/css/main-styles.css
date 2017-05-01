@@ -274,3 +274,38 @@ select#Input{
     position: absolute;
     z-index: 2;
 }
+.circular-btn{
+	display: inline-block;
+	height: 70px;
+	width: 70px;
+	background: rgba(255,255,255,0.3);
+	border-radius: 1000px;
+	color: #fff;
+	font-size: 21px;
+	text-align: center;
+	transition: all 0.1s ease-in;
+	padding-top: 19px;
+}
+.circular-btn:hover{
+	color: #5c7ff7;
+	background: rgba(255,255,255,1);
+}
+.upload-image-container{
+	position: relative;
+	margin: 0 auto;
+	left: auto;
+	right: auto;
+	height: 70px;
+	width: 70px;
+}
+#upload-image-btn{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+	border-radius: 1000px;
+	opacity: 0;
+	z-index: 99;
+	cursor: pointer;
+}
